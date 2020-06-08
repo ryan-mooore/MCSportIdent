@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="sportident:jar">
+    <output-path>$USER_HOME$/Documents/Test Server/plugins</output-path>
+    <root id="archive" name="sportident.jar">
+      <element id="module-output" name="sportident" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Test Server/spigot-1.15.2.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

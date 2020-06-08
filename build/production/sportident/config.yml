@@ -1,0 +1,11 @@
+SportIdent name: SI
+
+Control punch message: Punched control <code>
+Not started message: Course not started yet!
+Start message: Punched start. GO!
+Finish message: Course finished!
+
+World: world
+
+Punch radius: 1
+Punch height: 3

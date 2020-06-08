@@ -1,0 +1,20 @@
+main: com.spurposting.sportident.Main
+name: SportIdent
+version: 0.1.0
+description: Orienteering in Minecraft.
+api-version: 1.15
+author: Ryan Moore
+
+commands:
+  startclock:
+    description: create a clock
+    usage: /startclock <create|remove|update> <name>
+    aliases:
+
+  course:
+    commands:
+      start:
+        usage: start
+      control:
+        usage: control
+    usage: course
