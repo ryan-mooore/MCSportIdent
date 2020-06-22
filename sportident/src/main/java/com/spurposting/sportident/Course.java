@@ -1,9 +1,6 @@
 package com.spurposting.sportident;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -63,8 +60,16 @@ public class Course implements CommandExecutor {
         }
     };
 
+    private Map<String, SubCommand> commands = new HashMap<>();
+
+    public void registerCommand(String cmd, SubCommand subCommand) {
+        commands.put(cmd, subCommand);
+    }
+
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
         Integer controlNumber = 0;
         Integer controlCode = 0;
 
@@ -111,46 +116,7 @@ public class Course implements CommandExecutor {
                         PersistentDataContainer container = itemMetaHolder.getPersistentDataContainer();
 
                         if (args[0].equals("control")) {
-                            //sportIdent = Control.run(args, sender, controlLocation, sportIdent, key, player);
-                                JSONObject controlsJson;
-                                Integer lastControl = 0;
-
-                                if(container.has(key, PersistentDataType.STRING)) {
-                                    String data = container.get(key, PersistentDataType.STRING);
-                                    Object obj = new JSONParser().parse(data);
-                                    controlsJson = (JSONObject)obj;
-                                } else {
-                                    ((Player)player).sendMessage(notStartedMessage);
-                                    return false;
-                                }
-
-                                lastControl = ((Number)controlsJson.get("lastControl")).intValue();
-                                //last control punched was different
-                                if (!lastControl.equals(controlCode)) {
-                                    LocalTime now = LocalTime.now();
-                                    //add control
-
-                                    JSONArray splits = (JSONArray)controlsJson.get("splits");
-
-                                    HashMap<String, String> split = new HashMap<String, String>(3);
-                                    split.put("controlCode", controlCode.toString());
-                                    split.put("controlNumber", controlNumber.toString());
-                                    split.put("time", now.toString());
-
-                                    splits.add(split);
-                                    controlsJson.put("splits", splits);
-                                    controlsJson.put("lastControl", controlCode);
-
-                                    container.set(key, PersistentDataType.STRING, controlsJson.toJSONString());
-                                    sportIdent.setItemMeta((ItemMeta)itemMetaHolder);
-
-                                    String controlPunchMessageFormatted = controlPunchMessage.replaceAll("<code>", controlCode.toString());
-                                    controlPunchMessageFormatted = ChatColor.translateAlternateColorCodes('&', controlPunchMessageFormatted);
-                                    sender.sendMessage(player.toString() + " punched the control");
-                                    ((Player)player).sendMessage(controlPunchMessageFormatted);
-                                    ((Player)player).playSound(controlLocation, Sound.BLOCK_NOTE_BLOCK_PLING, 2f, 2f);
-                                }
-
+                            return new Control(control).onCommand(sender, command, label, args);
                         } else if (args[0].equals("start")) {
                             if (!container.has(key, PersistentDataType.STRING)) {
                                 JSONObject controlsJson = new JSONObject();

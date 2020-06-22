@@ -12,9 +12,4 @@ commands:
     aliases:
 
   course:
-    commands:
-      start:
-        usage: start
-      control:
-        usage: control
-    usage: course
+    usage: /course <start|control|finish> <control#> <controlcode>
