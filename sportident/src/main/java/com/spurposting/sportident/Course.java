@@ -78,7 +78,7 @@ public class Course implements CommandExecutor {
             Block control = ((BlockCommandSender) sender).getBlock();
             Location controlLocation = control.getLocation();
 
-            // check for entites currently punching a control
+            // check for entities currently punching a control
             World world = Bukkit.getServer().getWorld(courseWorld);
             if (world == null) {
                 sender.sendMessage("World \"" + courseWorld + "\" not found");
