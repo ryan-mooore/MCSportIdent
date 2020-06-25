@@ -11,3 +11,6 @@
 - [ ] Add autocomplete
 - [ ] Command to list times from db
 - [ ] fix splits book
+- [ ] make controls event based ?
+- [ ] competitor class ?
+- [ ] clear and check event based (based on who clicked button)

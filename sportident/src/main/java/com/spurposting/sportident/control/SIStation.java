@@ -1,5 +1,6 @@
-package com.spurposting.sportident;
+package com.spurposting.sportident.control;
 
+import com.spurposting.sportident.Main;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 
@@ -31,7 +32,7 @@ public class SIStation {
     final double punchRadius = 2;
     final double punchHeight = 2;
 
-    public SIStation(Block c) throws ParseException {
+    public SIStation(Block c) {
         this.key = new NamespacedKey(Main.getInstance(), "splits");
         location = c.getLocation();
         control = c;
@@ -86,7 +87,12 @@ public class SIStation {
         assert container != null;
         if (container.has(this.key, PersistentDataType.STRING)) {
             String data = container.get(this.key, PersistentDataType.STRING);
-            Object obj = new JSONParser().parse(data);
+            Object obj;
+            try {
+                obj = new JSONParser().parse(data);
+            } catch (ParseException e) {
+                obj = new JSONObject();
+            }
             return (JSONObject) obj;
         } else {
             return null;

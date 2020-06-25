@@ -1,9 +1,10 @@
-package com.spurposting.sportident;
+package com.spurposting.sportident.control;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.spurposting.sportident.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -11,7 +12,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+
 import org.bukkit.plugin.Plugin;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -22,7 +23,7 @@ public class Control extends SIStation implements CommandExecutor {
     Plugin plugin = Main.getPlugin(Main.class);
     FileConfiguration config = plugin.getConfig();
 
-    public Control(Block c) throws ParseException {
+    public Control(Block c) {
         super(c);
     }
 
