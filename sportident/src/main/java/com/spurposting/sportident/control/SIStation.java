@@ -1,6 +1,7 @@
 package com.spurposting.sportident.control;
 
 import com.spurposting.sportident.Main;
+import com.spurposting.sportident.SportIdent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 
@@ -77,7 +78,7 @@ public class SIStation {
     }
 
     // check for entities currently punching a control
-    public JSONObject getJSON(ItemStack sportIdent) throws ParseException {
+    public JSONObject getJSON(ItemStack sportIdent) {
         ItemMeta itemMeta = sportIdent.getItemMeta();
         PersistentDataContainer container = null;
         if (itemMeta != null) {
@@ -99,6 +100,21 @@ public class SIStation {
         }
     }
 
+    public SportIdent getObject(ItemStack sportIdent) {
+        ItemMeta itemMeta = sportIdent.getItemMeta();
+        PersistentDataContainer container = null;
+        if (itemMeta != null) {
+            container = ((PersistentDataHolder) itemMeta).getPersistentDataContainer();
+        }
+
+        assert container != null;
+        if (container.has(this.key, PersistentDataType.INTEGER)) {
+            Integer ID = container.get(this.key, PersistentDataType.INTEGER);
+            return Main.database.currentRunners.get(ID);
+        }
+        return null;
+    }
+
     public void punch(Player player) {
         ((Player) player).playSound(location, Sound.BLOCK_NOTE_BLOCK_PLING, 2f, 2f);
     }
@@ -108,8 +124,7 @@ public class SIStation {
         assert itemMeta != null;
         PersistentDataContainer container = ((PersistentDataHolder) itemMeta).getPersistentDataContainer();
 
-        container.set(this.key, PersistentDataType.STRING, obj.toJSONString());
-        sportIdent.setItemMeta((ItemMeta) (PersistentDataHolder) itemMeta);
+        Integer ID = container.get(this.key, PersistentDataType.INTEGER);
     }
 }
 

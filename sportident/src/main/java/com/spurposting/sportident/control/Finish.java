@@ -44,11 +44,7 @@ public class Finish extends SIStation implements CommandExecutor {
 
         for (Player competitor : competitors) {
             JSONObject controlsJson = null;
-            try {
-                controlsJson = this.getJSON(this.getSportIdent(competitor));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            controlsJson = this.getJSON(this.getSportIdent(competitor));
             Integer lastControl = 0;
 
             assert controlsJson != null;

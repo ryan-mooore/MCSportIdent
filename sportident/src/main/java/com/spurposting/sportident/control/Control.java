@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 
 public class Control extends SIStation implements CommandExecutor {
 
@@ -35,11 +34,7 @@ public class Control extends SIStation implements CommandExecutor {
 
         for (Player competitor : competitors) {
             JSONObject controlsJson = null;
-            try {
-                controlsJson = this.getJSON(this.getSportIdent(competitor));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            controlsJson = this.getJSON(this.getSportIdent(competitor));
             Integer lastControl = 0;
 
             assert controlsJson != null;

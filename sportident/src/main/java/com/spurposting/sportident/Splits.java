@@ -1,13 +1,10 @@
 package com.spurposting.sportident;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class Splits {
     LocalTime startTime;
     LocalTime finishTime;
-
-    public Splits(LocalTime startTime, LocalTime finishTime) {
-        this.startTime = startTime;
-        this.finishTime = finishTime;
-    }
+    ArrayList<Split> controls = new ArrayList<>();
 }

@@ -1,25 +1,31 @@
 package com.spurposting.sportident;
 
+import com.spurposting.sportident.database.CurrentRunners;
+import com.spurposting.sportident.database.Database;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
 
     public static Main instance;
+    public static Database database;
 
     @Override
     public void onEnable() {
-
         instance = this;
+        Config config = new Config();
+        Database database = new Database();
 
-        getLogger().info("Loading Plugin: SportIdent");
-        this.getCommand("course").setExecutor(new Course());
         loadConfig();
+        loadCommands();
+    }
 
+    void loadCommands() {
+        this.getCommand("course").setExecutor(new Course());
+        this.getCommand("runners").setExecutor(new CurrentRunners());
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("Unloading Plugin: MCO");
     }
 
     public static Main getInstance() {
