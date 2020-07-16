@@ -21,7 +21,6 @@ public class Database {
     }
 
     Integer addRunner(SportIdent runner) {
-        System.out.println("ID: " + currentRunnersID);
         currentRunnersID++;
         currentRunners.put(currentRunnersID, runner);
         return currentRunnersID;

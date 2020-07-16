@@ -14,5 +14,6 @@
 - [ ] make controls event based ?
 - [ ] competitor class ?
 - [ ] clear and check event based (based on who clicked button)
-- [ ] clear actually clears based on PersistentDataContainer
+- [x] clear actually clears based on PersistentDataContainer
 - [ ] SportIdent doesn't need to be in main hand
+- [ ] make sportident number DB ID

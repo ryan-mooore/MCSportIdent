@@ -45,29 +45,54 @@ public class SplitsBook {
         addLine(Main.config.bookTitle);
         addLine(Main.config.bookSubtitle);
         addLine(player.getDisplayName());
-        if (Main.config.showChipNumber) addLine( "Chip: " + (2000000 + (int)(Math.random() * ((2999999 - 2000000) + 1))));
+        if (Main.config.showChipNumber) {
+            addLine( "Chip: " + (Main.config.minChipNumber + (int)(Math.random() * ((Main.config.maxChipNumber - Main.config.minChipNumber) + 1))));
+        }
         addLine( "Status: " + status);
         if (Main.config.showAbsoluteTimes) {
             addLine("Start: " + SI.splits.startTime.format(dtf));
             addLine("Finish: " + SI.splits.finishTime.format(dtf));
         }
 
+        bookMeta.addPage(bookPage);
+        bookPage = "";
+
+        addLine(String.format("%1$-7s", "Start") + String.format(" %s %s", formatDuration(Duration.ofMillis(0)), formatDuration(Duration.ofMillis(0))));
+
         for (Split split : SI.splits.controls) {
+            if (bookPage.split(System.getProperty("line.separator")).length == 14) {
+                bookMeta.addPage(bookPage);
+                bookPage = "";
+            };
+
             String controlNum = ((Integer)split.controlNumber).toString();
 
             String absoluteTime = formatDuration(split.elapsedTime);
             String splitTime    = formatDuration(split.controlTime);
 
             if (Main.config.showAccumulatingTimes) {
-                addLine(String.format("%s   %s %s", controlNum, splitTime, absoluteTime));
+                addLine(String.format("%1$-7s", controlNum) + String.format(" %s %s", splitTime, absoluteTime));
             } else {
-                addLine(String.format("%s   %s", controlNum, splitTime));
+                addLine(String.format("%1$-7s", controlNum) + String.format(" %s", splitTime));
             }
 
         }
+
+        Split lastSplit = SI.splits.controls.get(SI.splits.controls.size() - 1);
+
+        String controlTime = formatDuration(Duration.between(lastSplit.time, SI.splits.finishTime));
+        String elapsedTime = formatDuration(Duration.between(SI.splits.startTime, SI.splits.finishTime));
+
+        if (bookPage.split(System.getProperty("line.separator")).length == 14) {
+            bookMeta.addPage(bookPage);
+            bookPage = "";
+        };
+
+        addLine(String.format("%1$-7s", "Finish") + String.format(" %s %s", controlTime, elapsedTime));
+
         bookMeta.setTitle("Splits for " + player.getDisplayName());
         bookMeta.setAuthor(Main.config.author);
-        bookMeta.setPages(bookPage);
+        bookMeta.addPage(bookPage);
         writtenBook.setItemMeta(bookMeta);
     }
 

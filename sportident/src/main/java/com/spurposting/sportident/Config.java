@@ -25,6 +25,9 @@ public class Config {
     public String bookSubtitle = config.getString("Subtitle");
     public String author = config.getString("Author");
 
+    public Integer minChipNumber = config.getInt("Min chip number");
+    public Integer maxChipNumber = config.getInt("Max chip number");
+
     public Boolean showChipNumber = config.getBoolean("Show chip number");
     public Boolean showAbsoluteTimes = config.getBoolean("Show absolute times");
     public Boolean showAccumulatingTimes = config.getBoolean("Show accumulating times");
@@ -36,8 +39,9 @@ public class Config {
         courseOrder = new ArrayList<Integer>();
         if (courseOrderString != null) {
             for (String controlCode : courseOrderString.split("[, ]")) {
-                if (controlCode.isEmpty()) break;
+                if (controlCode.isEmpty()) continue;
                 courseOrder.add(Integer.parseInt(controlCode));
+                System.out.println(courseOrder.toString());
             }
         }
     }

@@ -16,6 +16,9 @@ Course: 30,31
 Title: Spurposting Event 2
 Subtitle: Venice
 
+Min chip number: 2000000
+Max chip number: 2999999
+
 Show chip number: yes
 Show absolute times: yes
 Show accumulating times: yes
