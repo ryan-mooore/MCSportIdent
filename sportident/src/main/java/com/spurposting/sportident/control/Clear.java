@@ -16,12 +16,6 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 
 public class Clear extends SIStation implements CommandExecutor {
-
-    Plugin plugin = Main.getPlugin(Main.class);
-    FileConfiguration config = plugin.getConfig();
-
-    String startMessage = config.getString("Start message");
-
     public Clear(Block c) {
         super(c);
     }
@@ -36,7 +30,7 @@ public class Clear extends SIStation implements CommandExecutor {
             ItemStack sportIdentItem = this.getSportIdent(competitor);
             deleteReference(sportIdentItem);
 
-                competitor.sendMessage("SI cleared!");
+                competitor.sendMessage(Main.config.clearMessage);
             //} else {
             //    competitor.sendMessage("SI already cleared!")
             ((Player) competitor).playSound(location, Sound.BLOCK_NOTE_BLOCK_PLING, 2f, 2f);

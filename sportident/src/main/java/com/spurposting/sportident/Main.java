@@ -8,11 +8,12 @@ public class Main extends JavaPlugin {
 
     public static Main instance;
     public static Database database;
+    public static Config config;
 
     @Override
     public void onEnable() {
         instance = this;
-        Config config = new Config();
+        config = new Config();
         database = new Database();
 
         loadConfig();

@@ -1,9 +1,11 @@
 package com.spurposting.sportident.control;
 
+import com.spurposting.sportident.Config;
 import com.spurposting.sportident.Main;
-import com.spurposting.sportident.Split;
+import com.spurposting.sportident.SplitsBook;
+import com.spurposting.sportident.SplitsValidator;
+import com.spurposting.sportident.database.Splits;
 import com.spurposting.sportident.database.SportIdent;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -13,26 +15,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 
-import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class Finish extends SIStation implements CommandExecutor {
-
-    Plugin plugin = Main.getPlugin(Main.class);
-    FileConfiguration config = plugin.getConfig();
-
-    String finishMessage = config.getString("Finish message");
 
     public Finish(Block c) {
         super(c);
@@ -59,67 +46,19 @@ public class Finish extends SIStation implements CommandExecutor {
 
                 sportIdent.splits.finishTime = now;
 
-                ((Player) competitor).sendMessage(finishMessage);
+                ((Player) competitor).sendMessage(Main.config.finishMessage);
                 ((Player) competitor).playSound(location, Sound.BLOCK_NOTE_BLOCK_PLING, 2f, 2f);
 
                 System.out.println(competitor.getName() + " Finished the course:");
+
+                SplitsValidator sv = new SplitsValidator(Main.config.courseOrder.toArray(new Integer[0]));
+                Boolean status = sv.validate(sportIdent.splits);
+                SplitsBook results = new SplitsBook(sportIdent, competitor, status);
+                competitor.getInventory().addItem(results.getBook());
+
                 deleteReference(sportIdentItem);
-/*
-                //splits 1
-                for (int i = 0; i < splits.size(); i++) {
-                    String timeStr = (String) ((HashMap) splits.get(i)).get("time");
 
-                    Duration time = Duration.between(
-                            LocalTime.MIN,
-                            LocalTime.parse(timeStr));
-
-                    String lastTimeString = "";
-                    Duration lastTimeDiff = Duration.ofMillis(0);
-                    if (i > 0) {
-                        String lastTimeStr = (String) ((HashMap) splits.get(i - 1)).get("time");
-                        Duration lastTime = Duration.between(
-                                LocalTime.MIN,
-                                LocalTime.parse(lastTimeStr));
-                        lastTimeDiff = Duration.ofMillis(
-                                time.toMillis() - lastTime.toMillis());
-
-                        lastTimeString = String.format("%02d:%02d.%01d",
-                                lastTimeDiff.toMinutesPart(),
-                                lastTimeDiff.toSecondsPart(),
-                                lastTimeDiff.toMillisPart());
-
-                    }
-
-                    Duration absoluteTimeDiff = Duration.ofMillis(
-                            time.toMillis() - startTime.toMillis());
-
-
-                    Split split = new Split(i, lastTimeDiff, absoluteTimeDiff);
-                    System.out.println("added split: " + i + " " + lastTimeDiff + " " + absoluteTimeDiff);
-                    splitsObj.add(split);
-
-                }
-
-                //new splits
-                int controls = 25;
-                int currentControl = 0;
-                /*for (int i = 0; i < splitsObj.size() && currentControl < controls; i++) {
-                    Split currentSplit = splitsObj.get(i);
-                    System.out.println(currentSplit.controlNumber + " " + currentControl);
-                    if (currentSplit.controlNumber == currentControl) {
-                        i++;
-                        currentControl++;
-                        newSplits.add(currentSplit);
-                    } else {
-                        i++;
-                    }
-                }*//*
-                String status;
-                if (currentControl > controls) {
-                    status = "OK";
-                } else {
-                    status = "MP";
-                }
+                /*
                 newSplits.add(splitsObj.get(splitsObj.size() - 1));
 
                 //ItemStack book = SplitsBook.create(player.getName(), startTime, finishTime, status, newSplits);

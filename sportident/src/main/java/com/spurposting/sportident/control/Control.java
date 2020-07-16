@@ -3,10 +3,9 @@ package com.spurposting.sportident.control;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.spurposting.sportident.Main;
-import com.spurposting.sportident.Split;
+import com.spurposting.sportident.database.Split;
 import com.spurposting.sportident.database.SportIdent;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -18,16 +17,8 @@ import org.bukkit.entity.Player;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 public class Control extends SIStation implements CommandExecutor {
-
-    Plugin plugin = Main.getPlugin(Main.class);
-    FileConfiguration config = plugin.getConfig();
-
-    String controlPunchMessage = config.getString("Control punch message");
-
     public Control(Block c) {
         super(c);
     }
@@ -57,11 +48,11 @@ public class Control extends SIStation implements CommandExecutor {
 
             if (!(lastSplit.controlNumber == controlCode)) {
                 LocalTime now = LocalTime.now();
-                Duration controlTime = Duration.between(now, lastSplit.time);
-                Duration elapsedTime = Duration.between(now, sportIdent.splits.startTime);
+                Duration controlTime = Duration.between(lastSplit.time, now);
+                Duration elapsedTime = Duration.between(sportIdent.splits.startTime, now);
                 sportIdent.splits.controls.add(new Split(controlCode, now, controlTime, elapsedTime));
 
-                String controlPunchMessageFormatted = controlPunchMessage.replaceAll("<code>", controlCode.toString());
+                String controlPunchMessageFormatted = Main.config.controlPunchMessage.replaceAll("<code>", controlCode.toString());
                 controlPunchMessageFormatted = ChatColor.translateAlternateColorCodes('&', controlPunchMessageFormatted);
 
                 commandSender.sendMessage(competitor.toString() + " punched the control");

@@ -1,4 +1,4 @@
-package com.spurposting.sportident;
+package com.spurposting.sportident.database;
 
 import java.time.Duration;
 import java.time.LocalTime;

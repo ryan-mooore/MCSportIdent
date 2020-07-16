@@ -24,11 +24,6 @@ import java.util.HashMap;
 
 public class Start extends SIStation implements CommandExecutor {
 
-    Plugin plugin = Main.getPlugin(Main.class);
-    FileConfiguration config = plugin.getConfig();
-
-    String startMessage = config.getString("Start message");
-
     public Start(Block c) {
         super(c);
     }
@@ -50,7 +45,7 @@ public class Start extends SIStation implements CommandExecutor {
                     addReference(sportIdentItem);
                     SportIdent sportIdent = getReference(sportIdentItem);
                     sportIdent.splits.startTime = LocalTime.now();
-                    competitor.sendMessage(startMessage);
+                    competitor.sendMessage(Main.config.startMessage);
                 }
             }
         } catch (Exception e) {

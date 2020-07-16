@@ -3,14 +3,14 @@
 - [ ] Setup default config
 - [ ] Connect to DB
 - [ ] Remove old scoreboard list
-- [ ] Refactor, add more static methods
-- [ ] Remove hardcoded values and add to config.yml
-- [ ] Target more entities at controls
-- [ ] Add start and finish to controlsJson
-- [ ] Custom PersistentDataHolder?
+- [x] Refactor, add more static methods
+- [x] Remove hardcoded values and add to config.yml
+- [x] Target more entities at controls
+- [x] Add start and finish to controlsJson
+- [x] Custom PersistentDataHolder?
 - [ ] Add autocomplete
 - [ ] Command to list times from db
-- [ ] fix splits book
+- [x] fix splits book
 - [ ] make controls event based ?
 - [ ] competitor class ?
 - [ ] clear and check event based (based on who clicked button)
