@@ -1,16 +1,21 @@
 package com.spurposting.sportident;
 
 import java.time.Duration;
+import java.time.LocalTime;
 
 public class Split {
 
-    int controlNumber;
-    Duration controlTime;
-    Duration elapsedTime;
+    public int controlNumber;
 
-    public Split(int controlNumber, Duration controlTime, Duration time) {
+    public LocalTime time;
+    public Duration controlTime;
+    public Duration elapsedTime;
+
+    public Split(int controlNumber, LocalTime time, Duration controlTime, Duration elapsedTime) {
         this.controlNumber = controlNumber;
+
+        this.time = time;
         this.controlTime = controlTime;
-        this.elapsedTime = time;
+        this.elapsedTime = elapsedTime;
     }
 }

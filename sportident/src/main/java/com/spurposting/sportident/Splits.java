@@ -4,7 +4,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Splits {
-    LocalTime startTime;
-    LocalTime finishTime;
-    ArrayList<Split> controls = new ArrayList<>();
+    public LocalTime startTime;
+    public LocalTime finishTime;
+    public ArrayList<Split> controls = new ArrayList<>();
 }

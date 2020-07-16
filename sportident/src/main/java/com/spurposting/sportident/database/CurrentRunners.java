@@ -1,7 +1,6 @@
 package com.spurposting.sportident.database;
 
 import com.spurposting.sportident.Main;
-import com.spurposting.sportident.SportIdent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

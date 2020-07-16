@@ -1,6 +1,7 @@
 package com.spurposting.sportident.control;
 
 import com.spurposting.sportident.Main;
+import com.spurposting.sportident.database.SportIdent;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -8,6 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.json.simple.JSONObject;
 
@@ -31,11 +33,8 @@ public class Clear extends SIStation implements CommandExecutor {
         ArrayList<Player> competitors = this.getNearbyCompetitors("SI");
 
         for (Player competitor : competitors) {
-            //if(container.has(key, PersistentDataType.STRING)) {
-            //    container.remove(key);
-            //    sportIdent.setItemMeta((ItemMeta)itemMetaHolder);
-
-                this.setJSON(this.getSportIdent(competitor), new JSONObject());
+            ItemStack sportIdentItem = this.getSportIdent(competitor);
+            deleteReference(sportIdentItem);
 
                 competitor.sendMessage("SI cleared!");
             //} else {

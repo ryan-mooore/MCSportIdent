@@ -2,6 +2,7 @@ package com.spurposting.sportident.control;
 
 import com.spurposting.sportident.Main;
 import com.spurposting.sportident.Split;
+import com.spurposting.sportident.database.SportIdent;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -10,6 +11,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
@@ -43,44 +45,26 @@ public class Finish extends SIStation implements CommandExecutor {
         ArrayList<Player> competitors = this.getNearbyCompetitors("SI");
 
         for (Player competitor : competitors) {
-            JSONObject controlsJson = null;
-            controlsJson = this.getJSON(this.getSportIdent(competitor));
-            Integer lastControl = 0;
+            ItemStack sportIdentItem = this.getSportIdent(competitor);
+            SportIdent sportIdent = null;
+            try {
+                sportIdent = getReference(sportIdentItem);
+            } catch (Exception ignored) {
 
-            assert controlsJson != null;
-            lastControl = ((Number) controlsJson.get("lastControl")).intValue();
-            // last control punched was different
-            JSONArray splits = (JSONArray) controlsJson.get("splits");
+            }
 
-            // if has already punched finish
-            if (!((HashMap) splits.get(splits.size() - 1)).get("controlCode").equals("F1")) {
+            // if not has already punched finish
+            if (sportIdent.splits.finishTime == null) {
                 LocalTime now = LocalTime.now();
 
-                HashMap<String, String> finishSplit = new HashMap<String, String>(3);
-                finishSplit.put("controlCode", "F1");
-                finishSplit.put("controlNumber", "");
-                finishSplit.put("time", now.toString());
-
-                splits.add(finishSplit);
-                controlsJson.put("splits", splits);
-
-                this.setJSON(this.getSportIdent(competitor), controlsJson);
+                sportIdent.splits.finishTime = now;
 
                 ((Player) competitor).sendMessage(finishMessage);
                 ((Player) competitor).playSound(location, Sound.BLOCK_NOTE_BLOCK_PLING, 2f, 2f);
 
-                System.out.println(
-                        competitor.getName() + " Finished the course: " + controlsJson.toJSONString());
-
-                String startTimeStr = (String) ((HashMap) splits.get(0)).get("time");
-                Duration startTime = Duration.between(LocalTime.MIN, LocalTime.parse(startTimeStr));
-                String finishTimeStr = (String) ((HashMap) splits.get(splits.size() - 1)).get("time");
-                Duration finishTime = Duration.between(LocalTime.MIN, LocalTime.parse(finishTimeStr));
-
-                List<Split> splitsObj = new ArrayList<Split>();
-                List<Split> newSplits = new ArrayList<Split>();
-
-
+                System.out.println(competitor.getName() + " Finished the course:");
+                deleteReference(sportIdentItem);
+/*
                 //splits 1
                 for (int i = 0; i < splits.size(); i++) {
                     String timeStr = (String) ((HashMap) splits.get(i)).get("time");
@@ -129,7 +113,7 @@ public class Finish extends SIStation implements CommandExecutor {
                     } else {
                         i++;
                     }
-                }*/
+                }*//*
                 String status;
                 if (currentControl > controls) {
                     status = "OK";
@@ -156,7 +140,7 @@ public class Finish extends SIStation implements CommandExecutor {
                         totalTime.toSecondsPart(),
                         totalTime.toMillisPart());
                 Score score = objective.getScore(totalTimeString + " " + competitor.getName());
-                score.setScore(1);
+                score.setScore(1);*/
             }
         }
         return true;

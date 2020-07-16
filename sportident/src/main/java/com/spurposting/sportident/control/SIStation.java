@@ -1,12 +1,13 @@
 package com.spurposting.sportident.control;
 
 import com.spurposting.sportident.Main;
-import com.spurposting.sportident.SportIdent;
+import com.spurposting.sportident.database.SportIdent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -39,6 +40,8 @@ public class SIStation {
         control = c;
         world = c.getWorld();
     }
+
+    public SIStation() {}
 
     Predicate<Entity> isPlayer = new Predicate<Entity>() {
         public boolean test(Entity entity) {
@@ -77,7 +80,6 @@ public class SIStation {
         return competitors;
     }
 
-    // check for entities currently punching a control
     public JSONObject getJSON(ItemStack sportIdent) {
         ItemMeta itemMeta = sportIdent.getItemMeta();
         PersistentDataContainer container = null;
@@ -86,6 +88,7 @@ public class SIStation {
         }
 
         assert container != null;
+
         if (container.has(this.key, PersistentDataType.STRING)) {
             String data = container.get(this.key, PersistentDataType.STRING);
             Object obj;
@@ -100,19 +103,45 @@ public class SIStation {
         }
     }
 
-    public SportIdent getObject(ItemStack sportIdent) {
+    public SportIdent getReference(ItemStack sportIdent) throws Exception {
         ItemMeta itemMeta = sportIdent.getItemMeta();
         PersistentDataContainer container = null;
         if (itemMeta != null) {
             container = ((PersistentDataHolder) itemMeta).getPersistentDataContainer();
         }
 
-        assert container != null;
         if (container.has(this.key, PersistentDataType.INTEGER)) {
             Integer ID = container.get(this.key, PersistentDataType.INTEGER);
             return Main.database.currentRunners.get(ID);
+        } else {
+            throw new Exception("Course not started yet");
         }
-        return null;
+
+    }
+
+    public void addReference(ItemStack sportIdent) {
+        Integer ID = Main.database.addRunner(new SportIdent());
+
+        ItemMeta itemMeta = sportIdent.getItemMeta();
+        PersistentDataContainer container = null;
+        if (itemMeta != null) {
+            container = ((PersistentDataHolder) itemMeta).getPersistentDataContainer();
+        }
+
+        container.set(key, PersistentDataType.INTEGER, ID);
+        sportIdent.setItemMeta(itemMeta);
+    }
+
+    public void deleteReference(ItemStack sportIdent) {
+        ItemMeta itemMeta = sportIdent.getItemMeta();
+        PersistentDataContainer container = null;
+        if (itemMeta != null) {
+            container = ((PersistentDataHolder) itemMeta).getPersistentDataContainer();
+        }
+        Integer ID = container.get(this.key, PersistentDataType.INTEGER);
+        Main.database.currentRunners.remove(ID);
+        container.remove(key);
+        sportIdent.setItemMeta(itemMeta);
     }
 
     public void punch(Player player) {

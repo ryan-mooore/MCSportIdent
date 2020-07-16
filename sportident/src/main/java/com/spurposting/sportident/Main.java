@@ -13,7 +13,7 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         instance = this;
         Config config = new Config();
-        Database database = new Database();
+        database = new Database();
 
         loadConfig();
         loadCommands();
