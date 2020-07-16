@@ -1,15 +1,16 @@
-package com.spurposting.sportident;
+package com.spurposting.sportident.classes;
 
-import java.time.Duration;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-
+import com.spurposting.sportident.Main;
 import com.spurposting.sportident.database.Split;
 import com.spurposting.sportident.database.SportIdent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+
+import java.time.Duration;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class SplitsBook {
 

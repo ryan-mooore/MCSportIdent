@@ -1,4 +1,4 @@
-package com.spurposting.sportident;
+package com.spurposting.sportident.classes;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;

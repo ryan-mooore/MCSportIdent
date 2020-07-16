@@ -1,12 +1,14 @@
-package com.spurposting.sportident;
-
-import org.bukkit.command.*;
+package com.spurposting.sportident.commands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 
-import java.time.format.DateTimeFormatter;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class StartClock implements CommandExecutor {
 

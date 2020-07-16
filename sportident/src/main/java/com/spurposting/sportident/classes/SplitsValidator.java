@@ -1,4 +1,4 @@
-package com.spurposting.sportident;
+package com.spurposting.sportident.classes;
 
 import com.spurposting.sportident.database.Split;
 import com.spurposting.sportident.database.Splits;

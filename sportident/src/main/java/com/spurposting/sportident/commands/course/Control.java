@@ -1,10 +1,7 @@
-package com.spurposting.sportident.control;
-
-import java.time.Duration;
-import java.time.LocalTime;
-import java.util.ArrayList;
+package com.spurposting.sportident.commands.course;
 
 import com.spurposting.sportident.Main;
+import com.spurposting.sportident.classes.SIStation;
 import com.spurposting.sportident.database.Split;
 import com.spurposting.sportident.database.SportIdent;
 import org.bukkit.ChatColor;
@@ -12,11 +9,12 @@ import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
+
+import java.time.Duration;
+import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class Control extends SIStation implements CommandExecutor {
     public Control(Block c) {
@@ -27,14 +25,14 @@ public class Control extends SIStation implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         Integer controlCode = Integer.parseInt(args[2]);
         int controlNumber = Integer.parseInt(args[1]);
-        ArrayList<Player> competitors = this.getNearbyCompetitors("SI");
+        ArrayList<Player> competitors = this.getNearbyCompetitors();
 
         for (Player competitor : competitors) {
 
             ItemStack sportIdentItem = this.getSportIdent(competitor);
             SportIdent sportIdent = null;
             try {
-                sportIdent = getReference(sportIdentItem);
+                sportIdent = Main.database.getReference(sportIdentItem);
             } catch (Exception e) {
                 e.printStackTrace();
             }

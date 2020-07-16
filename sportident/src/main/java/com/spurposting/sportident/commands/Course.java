@@ -1,35 +1,14 @@
-package com.spurposting.sportident;
+package com.spurposting.sportident.commands;
 
-import java.util.*;
-import java.util.function.Predicate;
-
-import com.spurposting.sportident.control.Clear;
-import com.spurposting.sportident.control.Control;
-import com.spurposting.sportident.control.Finish;
-import com.spurposting.sportident.control.Start;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import com.spurposting.sportident.commands.course.Clear;
+import com.spurposting.sportident.commands.course.Control;
+import com.spurposting.sportident.commands.course.Finish;
+import com.spurposting.sportident.commands.course.Start;
 import org.bukkit.block.Block;
-
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
-
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataHolder;
-import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.Plugin;
 
 public class Course implements CommandExecutor {
     @Override

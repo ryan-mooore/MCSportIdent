@@ -15,4 +15,4 @@ commands:
     usage: /course <start|control|finish> <control#> <controlcode>
 
   runners:
-    usage: /srt
+    usage: /runners

@@ -4,16 +4,15 @@ Control punch message: Punched control <code>
 Not started message: Course not started yet!
 Start message: Punched start. GO!
 Finish message: Course finished!
-Clear message: SI cleared
 
-World: world
+Clear message: SI cleared
+Standby message: SI already cleared!
 
 Punch radius: 1
 Punch height: 3
 
 Course: 30,31
 
-# Splits book
 Title: Spurposting Event 2
 Subtitle: Venice
 

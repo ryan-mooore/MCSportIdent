@@ -1,6 +1,7 @@
 package com.spurposting.sportident;
 
-import com.spurposting.sportident.database.CurrentRunners;
+import com.spurposting.sportident.commands.Course;
+import com.spurposting.sportident.commands.CurrentRunners;
 import com.spurposting.sportident.database.Database;
 import org.bukkit.plugin.java.JavaPlugin;
 
