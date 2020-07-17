@@ -40,8 +40,7 @@ public class Finish extends SIStation implements CommandExecutor {
 
                 sportIdent.splits.finishTime = now;
 
-                ((Player) competitor).sendMessage(Main.config.finishMessage);
-                ((Player) competitor).playSound(location, Sound.BLOCK_NOTE_BLOCK_PLING, 2f, 2f);
+                punch(competitor, Main.config.finishMessage);
 
                 SplitsValidator sv = new SplitsValidator(Main.config.courseOrder.toArray(new Integer[0]));
                 Boolean status = sv.validate(sportIdent.splits);

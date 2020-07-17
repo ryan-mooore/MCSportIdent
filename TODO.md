@@ -1,6 +1,6 @@
 # TODO
 
-- [ ] Setup default config
+- [x] Setup default config
 - [ ] Connect to DB
 - [ ] Remove old scoreboard list
 - [x] Refactor, add more static methods
@@ -9,7 +9,7 @@
 - [x] Add start and finish to controlsJson
 - [x] Custom PersistentDataHolder?
 - [ ] Add autocomplete
-- [ ] Command to list times from db
+- [x] Command to list times from db
 - [x] fix splits book
 - [ ] make controls event based ?
 - [ ] competitor class ?

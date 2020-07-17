@@ -38,7 +38,7 @@ public class Start extends SIStation implements CommandExecutor {
                     Main.database.addReference(sportIdentItem);
                     SportIdent sportIdent = Main.database.getReference(sportIdentItem);
                     sportIdent.splits.startTime = LocalTime.now();
-                    competitor.sendMessage(Main.config.startMessage);
+                    punch(competitor, Main.config.startMessage);
                 }
             }
         } catch (Exception e) {

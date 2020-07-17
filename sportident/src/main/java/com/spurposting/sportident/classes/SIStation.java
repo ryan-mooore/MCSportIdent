@@ -2,10 +2,7 @@ package com.spurposting.sportident.classes;
 
 import com.spurposting.sportident.Main;
 import com.spurposting.sportident.database.SportIdent;
-import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -82,8 +79,9 @@ public class SIStation {
         return competitors;
     }
 
-    public void punch(Player player) {
+    public void punch(Player player, String message) {
         ((Player) player).playSound(location, Sound.BLOCK_NOTE_BLOCK_PLING, 2f, 2f);
+        player.sendTitle("", ChatColor.translateAlternateColorCodes('&', message), 5, 40, 20);
         ItemStack sportIdentItem = ((HumanEntity) player).getInventory().getItemInMainHand();
         try {
             SportIdent sportIdent = Main.database.getReference(sportIdentItem);

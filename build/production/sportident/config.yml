@@ -1,9 +1,9 @@
 SportIdent name: SI
 
-Control punch message: Punched control <code>
+Control punch message: "&6Punched control <code>"
 Not started message: Course not started yet!
-Start message: Punched start. GO!
-Finish message: Course finished!
+Start message: "&2Course started!"
+Finish message: "&cCourse finished!"
 
 Clear message: SI cleared
 Standby message: SI already cleared!
@@ -11,7 +11,7 @@ Standby message: SI already cleared!
 Punch radius: 1
 Punch height: 3
 
-Course: 30,31
+Course: 31, 34, 35
 
 Title: Spurposting Event 2
 Subtitle: Venice

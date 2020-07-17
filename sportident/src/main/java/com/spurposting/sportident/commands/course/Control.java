@@ -23,8 +23,7 @@ public class Control extends SIStation implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        Integer controlCode = Integer.parseInt(args[2]);
-        int controlNumber = Integer.parseInt(args[1]);
+        Integer controlCode = Integer.parseInt(args[1]);
         ArrayList<Player> competitors = this.getNearbyCompetitors();
 
         for (Player competitor : competitors) {
@@ -51,12 +50,10 @@ public class Control extends SIStation implements CommandExecutor {
                 sportIdent.splits.controls.add(new Split(controlCode, now, controlTime, elapsedTime));
 
                 String controlPunchMessageFormatted = Main.config.controlPunchMessage.replaceAll("<code>", controlCode.toString());
-                controlPunchMessageFormatted = ChatColor.translateAlternateColorCodes('&', controlPunchMessageFormatted);
 
                 commandSender.sendMessage(competitor.toString() + " punched the control");
-                competitor.sendMessage(controlPunchMessageFormatted);
 
-                this.punch(competitor);
+                this.punch(competitor, controlPunchMessageFormatted);
             }
         }
         return true;

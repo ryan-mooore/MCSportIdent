@@ -3,7 +3,7 @@
     <output-path>$USER_HOME$/Documents/Test Server/plugins</output-path>
     <root id="archive" name="sportident.jar">
       <element id="module-output" name="sportident" />
-      <element id="extracted-dir" path="$USER_HOME$/Documents/Test Server/spigot-1.15.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Test Server/spigot-1.16.1.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

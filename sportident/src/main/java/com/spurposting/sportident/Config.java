@@ -41,7 +41,6 @@ public class Config {
             for (String controlCode : courseOrderString.split("[, ]")) {
                 if (controlCode.isEmpty()) continue;
                 courseOrder.add(Integer.parseInt(controlCode));
-                System.out.println(courseOrder.toString());
             }
         }
     }

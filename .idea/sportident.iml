@@ -23,11 +23,22 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Documents/Test Server/spigot-1.15.2.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/Test Server/spigot-1.16.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/Documents/Test Server/spigot-1.15.2.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/Test Server/spigot-1.16.1.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Documents/Test Server/plugins/ObjectiveUtils.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/Documents/Test Server/plugins/ObjectiveUtils.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
