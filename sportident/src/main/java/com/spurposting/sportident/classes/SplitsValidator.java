@@ -1,5 +1,6 @@
 package com.spurposting.sportident.classes;
 
+import com.spurposting.sportident.database.Result;
 import com.spurposting.sportident.database.Split;
 import com.spurposting.sportident.database.Splits;
 
@@ -13,24 +14,32 @@ public class SplitsValidator {
     }
 
     int courseIndex = 0;
-    public boolean validate(Splits splits) {
+    public Result.Status validate(Splits splits) {
+
+        if (splits.startTime == null) {
+            return Result.Status.DNS;
+        }
+        if (splits.finishTime == null) {
+            return Result.Status.DNF;
+        }
+
         if (splits.controls.isEmpty() && course.length > 0) {
-            return false;
+            return Result.Status.MP;
         }
         try {
             for (Split split : splits.controls) {
                 if (split.controlNumber == course[courseIndex]) {
                     courseIndex++;
                     if (courseIndex == course.length) {
-                        return true;
+                        return Result.Status.OK;
                     }
                 } else {
                     //control was incorrect
                 }
             }
         } catch (IndexOutOfBoundsException e) {
-            return false;
+            return Result.Status.MP;
         }
-    return false;
+    return Result.Status.MP;
     }
 }

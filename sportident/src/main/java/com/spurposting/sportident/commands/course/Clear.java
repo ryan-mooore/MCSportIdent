@@ -2,6 +2,7 @@ package com.spurposting.sportident.commands.course;
 
 import com.spurposting.sportident.Main;
 import com.spurposting.sportident.classes.SIStation;
+import org.bukkit.GameMode;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -28,28 +29,29 @@ public class Clear extends SIStation implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
-
         ArrayList<Player> competitors = this.getNearbyCompetitors();
 
         for (Player competitor : competitors) {
-            ItemStack sportIdentItem = this.getSportIdent(competitor);
-            Main.database.deleteReference(sportIdentItem);
+            if (competitor.getGameMode().equals(GameMode.ADVENTURE)) {
+                ItemStack sportIdentItem = this.getSportIdent(competitor);
+                Main.database.deleteReference(sportIdentItem);
 
-            ItemMeta itemMeta = sportIdentItem.getItemMeta();
-            PersistentDataContainer container = null;
-            assert itemMeta != null;
-            container = ((PersistentDataHolder) itemMeta).getPersistentDataContainer();
+                ItemMeta itemMeta = sportIdentItem.getItemMeta();
+                PersistentDataContainer container = null;
+                assert itemMeta != null;
+                container = ((PersistentDataHolder) itemMeta).getPersistentDataContainer();
 
-            if (container.has(this.key, PersistentDataType.INTEGER)) {
-                container.remove(key);
-                sportIdentItem.setItemMeta(itemMeta);
+                if (container.has(this.key, PersistentDataType.INTEGER)) {
+                    container.remove(key);
+                    sportIdentItem.setItemMeta(itemMeta);
 
-                competitor.sendMessage(Main.config.clearMessage);
-            } else {
-                competitor.sendMessage(Main.config.standbyMessage);
+                    competitor.sendMessage(Main.config.clearMessage);
+                } else {
+                    competitor.sendMessage(Main.config.standbyMessage);
+                }
+
+                ((Player) competitor).playSound(location, Sound.BLOCK_NOTE_BLOCK_PLING, 2f, 2f);
             }
-
-            ((Player) competitor).playSound(location, Sound.BLOCK_NOTE_BLOCK_PLING, 2f, 2f);
         }
         return true;
     }

@@ -4,7 +4,9 @@ import com.spurposting.sportident.Main;
 import com.spurposting.sportident.classes.SplitsBook;
 import com.spurposting.sportident.classes.SplitsValidator;
 import com.spurposting.sportident.classes.SIStation;
+import com.spurposting.sportident.database.Result;
 import com.spurposting.sportident.database.SportIdent;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -28,26 +30,34 @@ public class Finish extends SIStation implements CommandExecutor {
         ArrayList<Player> competitors = this.getNearbyCompetitors();
 
         for (Player competitor : competitors) {
-            ItemStack sportIdentItem = this.getSportIdent(competitor);
-            SportIdent sportIdent = null;
-            try {
-                sportIdent = Main.database.getReference(sportIdentItem);
-            } catch (Exception ignored) {}
+            if (competitor.getGameMode().equals(GameMode.ADVENTURE)) {
 
-            // if not has already punched finish
-            if (sportIdent.splits.finishTime == null) {
-                LocalTime now = LocalTime.now();
+                ItemStack sportIdentItem = this.getSportIdent(competitor);
 
-                sportIdent.splits.finishTime = now;
+                SportIdent sportIdent = null;
+                try {
+                    sportIdent = Main.database.getReference(sportIdentItem);
+                } catch (Exception ignored) {
+                    return true;
+                }
 
-                punch(competitor, Main.config.finishMessage);
+                // if not has already punched finish
+                if (sportIdent != null) {
+                    if (sportIdent.splits.finishTime == null) {
 
-                SplitsValidator sv = new SplitsValidator(Main.config.courseOrder.toArray(new Integer[0]));
-                Boolean status = sv.validate(sportIdent.splits);
-                SplitsBook results = new SplitsBook(sportIdent, competitor, status);
-                competitor.getInventory().addItem(results.getBook());
+                        sportIdent.splits.finishTime = LocalTime.now();
 
-                Main.database.deleteReference(sportIdentItem);
+                        punch(competitor, Main.config.finishMessage);
+
+                        SplitsValidator sv = new SplitsValidator(Main.config.courseOrder.toArray(new Integer[0]));
+                        Result.Status status = sv.validate(sportIdent.splits);
+                        sportIdent.status = status;
+                        SplitsBook results = new SplitsBook(sportIdent, competitor, status);
+                        competitor.getInventory().addItem(results.getBook());
+
+                        Main.database.deleteReference(sportIdentItem);
+                    }
+                }
             }
         }
         return true;

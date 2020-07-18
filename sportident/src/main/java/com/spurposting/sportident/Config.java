@@ -32,6 +32,8 @@ public class Config {
     public Boolean showAbsoluteTimes = config.getBoolean("Show absolute times");
     public Boolean showAccumulatingTimes = config.getBoolean("Show accumulating times");
 
+    public Boolean sportIdentNeedsToBeHeld = config.getBoolean("SportIdent needs to be held");
+
     public ArrayList<Integer> courseOrder;
 
     public Config() {

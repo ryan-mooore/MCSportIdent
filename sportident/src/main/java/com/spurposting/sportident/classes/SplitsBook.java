@@ -1,6 +1,7 @@
 package com.spurposting.sportident.classes;
 
 import com.spurposting.sportident.Main;
+import com.spurposting.sportident.database.Result;
 import com.spurposting.sportident.database.Split;
 import com.spurposting.sportident.database.SportIdent;
 import org.bukkit.Material;
@@ -30,14 +31,8 @@ public class SplitsBook {
             time.elapsedTime.toMillisPart()*/);
     }
 
-    public SplitsBook(SportIdent SI, Player player, Boolean mispunched) {
+    public SplitsBook(SportIdent SI, Player player, Result.Status status) {
 
-        String status;
-        if (mispunched) {
-            status = "OK";
-        } else {
-            status = "MP";
-        }
 
         writtenBook = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta bookMeta = (BookMeta) writtenBook.getItemMeta();
@@ -48,7 +43,7 @@ public class SplitsBook {
         if (Main.config.showChipNumber) {
             addLine( "Chip: " + (Main.config.minChipNumber + (int)(Math.random() * ((Main.config.maxChipNumber - Main.config.minChipNumber) + 1))));
         }
-        addLine( "Status: " + status);
+        addLine( "Status: " + status.name());
         if (Main.config.showAbsoluteTimes) {
             addLine("Start: " + SI.splits.startTime.format(dtf));
             addLine("Finish: " + SI.splits.finishTime.format(dtf));
@@ -81,14 +76,14 @@ public class SplitsBook {
         Split lastSplit = SI.splits.controls.get(SI.splits.controls.size() - 1);
 
         String controlTime = formatDuration(Duration.between(lastSplit.time, SI.splits.finishTime));
-        String elapsedTime = formatDuration(Duration.between(SI.splits.startTime, SI.splits.finishTime));
+        String totalTime = formatDuration(Duration.between(SI.splits.startTime, SI.splits.finishTime));
 
         if (bookPage.split(System.getProperty("line.separator")).length == 14) {
             bookMeta.addPage(bookPage);
             bookPage = "";
         };
 
-        addLine(String.format("%1$-7s", "Finish") + String.format(" %s %s", controlTime, elapsedTime));
+        addLine(String.format("%1$-7s", "Finish") + String.format(" %s %s", controlTime, totalTime));
 
         bookMeta.setTitle("Splits for " + player.getDisplayName());
         bookMeta.setAuthor(Main.config.author);

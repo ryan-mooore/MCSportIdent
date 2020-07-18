@@ -8,6 +8,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.time.Duration;
 import java.util.HashMap;
 
 public class Database {
@@ -15,6 +16,7 @@ public class Database {
     Integer currentRunnersID = 0;
     NamespacedKey key;
     public HashMap<Integer, SportIdent> currentRunners = new HashMap<>();
+    public HashMap<Integer, Result> finishedRunners = new HashMap<>();
 
     public Database() {
         this.key = new NamespacedKey(Main.getInstance(), "splits");
@@ -45,20 +47,26 @@ public class Database {
 
         ItemMeta itemMeta = sportIdent.getItemMeta();
         PersistentDataContainer container = null;
-        assert itemMeta != null;
-        container = ((PersistentDataHolder) itemMeta).getPersistentDataContainer();
 
-        container.set(key, PersistentDataType.INTEGER, ID);
-        sportIdent.setItemMeta(itemMeta);
+        if (itemMeta != null) {
+            container = ((PersistentDataHolder) itemMeta).getPersistentDataContainer();
+            container.set(key, PersistentDataType.INTEGER, ID);
+            sportIdent.setItemMeta(itemMeta);
+        }
     }
 
     public void deleteReference(ItemStack sportIdent) {
         ItemMeta itemMeta = sportIdent.getItemMeta();
         PersistentDataContainer container = null;
-        assert itemMeta != null;
-        container = ((PersistentDataHolder) itemMeta).getPersistentDataContainer();
+        if (itemMeta != null) {
+            container = ((PersistentDataHolder) itemMeta).getPersistentDataContainer();
+            Integer ID = container.get(this.key, PersistentDataType.INTEGER);
+            SportIdent runner = currentRunners.get(ID);
+            try {
+                finishedRunners.put(ID, new Result(runner.player, runner.splits.getTotalTime(), runner.status, true));
+            } catch (Exception ignored) {}
+            currentRunners.remove(ID);
 
-        Integer ID = container.get(this.key, PersistentDataType.INTEGER);
-        currentRunners.remove(ID);
+        }
     }
 }
