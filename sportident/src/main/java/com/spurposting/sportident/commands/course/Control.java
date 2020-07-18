@@ -34,6 +34,7 @@ public class Control extends SIStation implements CommandExecutor {
                 SportIdent sportIdent = null;
                 try {
                     sportIdent = Main.database.getReference(sportIdentItem);
+                    if (sportIdent.splits.controls.isEmpty()){};
                 } catch (Exception e) {
                     commandSender.sendMessage("course not started yet");
                     return true;

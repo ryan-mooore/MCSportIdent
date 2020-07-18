@@ -3,6 +3,7 @@ package com.spurposting.sportident;
 import com.spurposting.sportident.commands.Course;
 import com.spurposting.sportident.commands.CurrentRunners;
 import com.spurposting.sportident.commands.Results;
+import com.spurposting.sportident.commands.StartClock;
 import com.spurposting.sportident.database.Database;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -28,6 +29,7 @@ public class Main extends JavaPlugin {
         this.getCommand("course").setExecutor(new Course());
         this.getCommand("runners").setExecutor(new CurrentRunners());
         this.getCommand("results").setExecutor(new Results());
+        this.getCommand("startclock").setExecutor(new StartClock());
     }
 
     //void loadListeners() {
