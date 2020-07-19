@@ -3,10 +3,12 @@ package com.spurposting.sportident.commands;
 import com.spurposting.sportident.Main;
 import com.spurposting.sportident.database.Result;
 import com.spurposting.sportident.database.SportIdent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.awt.*;
 import java.util.*;
@@ -15,6 +17,14 @@ public class Results implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) { try {
+        if (strings.length > 0) {
+            if (strings[0].equals("add")) {
+                Main.database.currentRunnersID++;
+                Main.database.finishedRunners.put(Main.database.currentRunnersID, new Result(Bukkit.getPlayer(strings[1]), strings[2], Result.Status.OK, true));
+                return true;
+            }
+        }
+
             ArrayList<Result> results = new ArrayList<>();
             for (Map.Entry<Integer, SportIdent> entry : Main.database.currentRunners.entrySet()) {
                 results.add(new Result(entry.getValue().player, entry.getValue().splits.getTotalTime(), Result.Status.OK, false));
@@ -76,7 +86,7 @@ public class Results implements CommandExecutor {
             if (!foundResult) {
                 commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&oNo Results Yet"));
             }
-        } catch (Exception e) {
+        } catch(Exception e){
             e.printStackTrace();
         }
         return true;

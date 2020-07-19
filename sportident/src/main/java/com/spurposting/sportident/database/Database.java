@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class Database {
 
-    Integer currentRunnersID = 0;
+    public Integer currentRunnersID = 0;
     NamespacedKey key;
     public HashMap<Integer, SportIdent> currentRunners = new HashMap<>();
     public HashMap<Integer, Result> finishedRunners = new HashMap<>();

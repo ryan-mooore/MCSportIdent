@@ -33,6 +33,7 @@ public class Config {
     public Boolean showAccumulatingTimes = config.getBoolean("Show accumulating times");
 
     public Boolean sportIdentNeedsToBeHeld = config.getBoolean("SportIdent needs to be held");
+    public Boolean requireAdventureMode = config.getBoolean("Require adventure mode");
 
     public ArrayList<Integer> courseOrder;
 
