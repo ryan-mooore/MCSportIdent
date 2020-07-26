@@ -1,6 +1,7 @@
 package com.spurposting.sportident.commands.course;
 
 import com.spurposting.sportident.Main;
+import com.spurposting.sportident.classes.SIField;
 import com.spurposting.sportident.classes.SplitsBook;
 import com.spurposting.sportident.classes.SplitsValidator;
 import com.spurposting.sportident.classes.SIStation;
@@ -18,48 +19,38 @@ import org.bukkit.inventory.ItemStack;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Finish extends SIStation implements CommandExecutor {
+public class Finish extends SIStation implements SIField {
 
     public Finish(Block c) {
         super(c);
     }
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+    public void onSportIdentInRange(Player competitor, ItemStack sportIdentItem) {
 
-        ArrayList<Player> competitors = this.getNearbyCompetitors();
+        SportIdent sportIdent = null;
+        try {
+            sportIdent = Main.database.getReference(sportIdentItem);
+        } catch (Exception ignored) {
+            return;
+        }
 
-        for (Player competitor : competitors) {
-            if (competitor.getGameMode().equals(GameMode.ADVENTURE)) {
+        // if not has already punched finish
+        if (sportIdent != null) {
+            if (sportIdent.splits.finishTime == null) {
 
-                ItemStack sportIdentItem = this.getSportIdent(competitor);
+                sportIdent.splits.finishTime = LocalTime.now();
 
-                SportIdent sportIdent = null;
-                try {
-                    sportIdent = Main.database.getReference(sportIdentItem);
-                } catch (Exception ignored) {
-                    return true;
-                }
+                punch(competitor, Main.config.finishMessage);
 
-                // if not has already punched finish
-                if (sportIdent != null) {
-                    if (sportIdent.splits.finishTime == null) {
+                SplitsValidator sv = new SplitsValidator(Main.config.courseOrder.toArray(new Integer[0]));
+                Result.Status status = sv.validate(sportIdent.splits);
+                sportIdent.status = status;
+                SplitsBook results = new SplitsBook(sportIdent, competitor, status);
+                competitor.getInventory().addItem(results.getBook());
 
-                        sportIdent.splits.finishTime = LocalTime.now();
-
-                        punch(competitor, Main.config.finishMessage);
-
-                        SplitsValidator sv = new SplitsValidator(Main.config.courseOrder.toArray(new Integer[0]));
-                        Result.Status status = sv.validate(sportIdent.splits);
-                        sportIdent.status = status;
-                        SplitsBook results = new SplitsBook(sportIdent, competitor, status);
-                        competitor.getInventory().addItem(results.getBook());
-
-                        Main.database.deleteReference(sportIdentItem);
-                    }
-                }
+                Main.database.deleteReference(sportIdentItem);
             }
         }
-        return true;
     }
 }

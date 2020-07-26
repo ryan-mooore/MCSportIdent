@@ -1,6 +1,7 @@
 package com.spurposting.sportident.commands.course;
 
 import com.spurposting.sportident.Main;
+import com.spurposting.sportident.classes.SIField;
 import com.spurposting.sportident.classes.SIStation;
 import com.spurposting.sportident.database.SportIdent;
 import org.bukkit.GameMode;
@@ -16,38 +17,28 @@ import java.util.ArrayList;
 
 
 
-public class Start extends SIStation implements CommandExecutor {
+public class Start extends SIStation implements SIField {
 
     public Start(Block c) {
         super(c);
     }
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
+    public void onSportIdentInRange(Player competitor, ItemStack sportIdentItem) {
 
-        ArrayList<Player> competitors = this.getNearbyCompetitors();
-        for (Player competitor : competitors) {
-            if (competitor.getGameMode().equals(GameMode.ADVENTURE)) {
-
-                //create reference in database
-                ItemStack sportIdentItem = this.getSportIdent(competitor);
-
-                try {
-                    SportIdent sportIdent = Main.database.getReference(sportIdentItem);
-                    commandSender.sendMessage("Already started");
-                } catch (Exception e) { //no reference
-                    Main.database.addReference(sportIdentItem);
-                    SportIdent sportIdent = null;
-                    try {
-                        sportIdent = Main.database.getReference(sportIdentItem);
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                    }
-                    sportIdent.splits.startTime = LocalTime.now();
-                    punch(competitor, Main.config.startMessage);
-                }
+        try {
+            SportIdent sportIdent = Main.database.getReference(sportIdentItem);
+            logToStation("Already started");
+        } catch (Exception e) { //no reference
+            Main.database.addReference(sportIdentItem);
+            SportIdent sportIdent = null;
+            try {
+                sportIdent = Main.database.getReference(sportIdentItem);
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
+            sportIdent.splits.startTime = LocalTime.now();
+            punch(competitor, Main.config.startMessage);
         }
-            return true;
     }
 }
